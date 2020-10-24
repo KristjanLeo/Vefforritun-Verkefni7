@@ -8,7 +8,58 @@ const LETTERS = `AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ`;
  * Byrja forrit.
  */
 function start() {
-  alert('Halló!')
+  alert('Halló!');
+  var input;
+  var n;
+  var Numbern;
+  var strengur;
+  var CorrectString = true;
+  var JoinedErrorString;
+  var invalid = [];
+
+  do{
+    input = prompt('Hvort viltu kóða eða afkóða streng? Skrifaðu „kóða“ eða „afkóða“');
+    if(input != "kóða" && input!= "afkóða"){
+      alert(`Veit ekki hvaða aðgerð ${input} er. Reyndu aftur.`);
+    }
+  }while(input != "kóða" && input != "afkóða")
+
+  do{
+    n = prompt(`Hversu mikið á að hliðra streng? Gefðu upp heiltölu á bilinu [1, 31]`);
+    Numbern = Number.parseInt(n)
+    if(n < 1 || n > 31 || !Number.isInteger(Numbern)){
+      alert(`${n} er ekki heiltala á bilinu [1, 31]. Reyndu aftur.`);
+    }
+  }while(n < 1 || n > 31 || !Number.isInteger(Numbern))
+
+  do{
+    CorrectString = true;
+    strengur = prompt(`Gefðu upp strenginn sem á að ${input} með hliðrun ${n}:`).toLocaleUpperCase();
+    if(strengur.length === 0){
+      alert(`Þú gafst ekki upp streng. Reyndu aftur.`);
+      CorrectString = false;
+    }else{
+      invalid = [];
+      for(var i = 0; i < strengur.length; i++){
+        if(LETTERS.indexOf(strengur[i]) === -1){
+          invalid.push(strengur[i]);
+          CorrectString = false;
+        }
+      }
+      if(!CorrectString){
+        console.log(invalid);
+        alert(`Þú gafst upp stafi sem ekki er hægt að ${input}: ${invalid.join(', ')}. Reyndu aftur.`);
+      }
+    }
+  }while(!CorrectString)
+
+  if(input === "kóða"){
+    alert(encode(strengur, n));
+  }
+  if(input === "afkóða"){
+    alert(decode(strengur, n));
+  }
+
 }
 
 // Hér er gott að commenta út til að vinna í encode/decode föllum fyrst og síðan „viðmóti“ forrits
@@ -22,7 +73,11 @@ start();
  * @returns {string} Upprunalegi strengurinn hliðraður um n til hægri
  */
 function encode(str, n) {
-  return str;
+  var encodedstr = "";
+  for(var i = 0; i < str.length; i++){
+    encodedstr += LETTERS[(LETTERS.indexOf(str[i]) + n) % 32];
+  }
+  return encodedstr;
 }
 
 /**
@@ -33,7 +88,11 @@ function encode(str, n) {
  * @returns {string} Upprunalegi strengurinn hliðraður um n til vinstri
  */
 function decode(str, n) {
-  return str;
+  var decodedstr = "";
+  for(var i = 0; i < str.length; i++){
+    decodedstr += LETTERS[(LETTERS.indexOf(str[i]) - n + 32) % 32]; /* +32 til þess að vera ekki með neikvæðar tölur */
+  }
+  return decodedstr;
 }
 
 console.assert(encode('A', 3) === 'D', 'kóðun á A með n=3 er D');
