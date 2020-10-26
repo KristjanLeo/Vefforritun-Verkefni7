@@ -1,20 +1,20 @@
 /**
  * Verkefni 7 – Caesar dulmál
  */
-
+'use strict';
 const LETTERS = `AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ`;
 
 /**
  * Byrja forrit.
  */
 function start() {
+
   alert('Halló!');
   var input;
   var n;
   var Numbern;
   var strengur;
   var CorrectString = true;
-  var JoinedErrorString;
   var invalid = [];
 
   do{
@@ -54,15 +54,14 @@ function start() {
   }while(!CorrectString)
 
   if(input === "kóða"){
-    alert(encode(strengur, n));
+    alert(encode(strengur, Numbern));
   }
   if(input === "afkóða"){
-    alert(decode(strengur, n));
+    alert(decode(strengur, Numbern));
   }
 
 }
 
-// Hér er gott að commenta út til að vinna í encode/decode föllum fyrst og síðan „viðmóti“ forrits
 start();
 
 /**
@@ -95,6 +94,8 @@ function decode(str, n) {
   return decodedstr;
 }
 
+
+// assertions
 console.assert(encode('A', 3) === 'D', 'kóðun á A með n=3 er D');
 console.assert(decode('D', 3) === 'A', 'afkóðun á D með n=3 er A');
 console.assert(encode('AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ', 32) === 'AÁBDÐEÉFGHIÍJKLMNOÓPRSTUÚVXYÝÞÆÖ', 'kóðun með n=32 er byrjunarstrengur');
